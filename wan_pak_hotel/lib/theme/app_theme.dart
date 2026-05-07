@@ -17,7 +17,7 @@ class AppTheme {
         surface: cardColor,
         onSurface: textDark,
       ),
-      textTheme: GoogleFonts.interTextTheme().copyWith(
+      textTheme: GoogleFonts.promptTextTheme().copyWith(
         displayLarge: GoogleFonts.playfairDisplay(
           color: textDark,
           fontWeight: FontWeight.bold,
@@ -26,22 +26,22 @@ class AppTheme {
           color: textDark,
           fontWeight: FontWeight.bold,
         ),
-        displaySmall: GoogleFonts.playfairDisplay(
+        displaySmall: GoogleFonts.prompt(
           color: textDark,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.bold,
         ),
         headlineMedium: GoogleFonts.playfairDisplay(
           color: textDark,
           fontWeight: FontWeight.w600,
         ),
-        titleLarge: const TextStyle(
+        titleLarge: GoogleFonts.prompt(
           color: textDark,
           fontWeight: FontWeight.w600,
         ),
-        bodyLarge: const TextStyle(
+        bodyLarge: GoogleFonts.prompt(
           color: textDark,
         ),
-        bodyMedium: const TextStyle(
+        bodyMedium: GoogleFonts.prompt(
           color: textDark,
         ),
       ),
