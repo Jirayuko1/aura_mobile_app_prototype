@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "751497855436",
+    "project_id": "wan-pak",
+    "storage_bucket": "wan-pak.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:751497855436:android:d2c1a31af965ef8af75d69",
+        "android_client_info": {
+          "package_name": "com.example.wan_pak_hotel"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlSjwLt9_0G1-Z_qzKhIjxjxH4Ab_w7So"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

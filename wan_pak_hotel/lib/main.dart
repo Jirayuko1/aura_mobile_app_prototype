@@ -1,9 +1,28 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'firebase_options.dart';
 import 'theme/app_theme.dart';
-import 'screens/home_screen.dart';
+import 'screens/login_screen.dart';
 import 'screens/staff_tasks_screen.dart';
 
-void main() {
+import 'package:firebase_messaging/firebase_messaging.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize Firebase
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  
+  // Request messaging permission in background (non-blocking)
+  FirebaseMessaging.instance.requestPermission(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+
   runApp(const MyApp());
 }
 
@@ -13,46 +32,40 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Aura Hotel Assistant',
+      title: 'Aura Staff',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      // Change to StaffTasksScreen() to see the staff view
-      home: const RootNavigator(),
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.system, // Automatically switch based on OS settings
+      home: const AuthWrapper(),
     );
   }
 }
 
-// A simple wrapper to easily switch between User and Staff views for demo
-class RootNavigator extends StatefulWidget {
-  const RootNavigator({super.key});
-
-  @override
-  State<RootNavigator> createState() => _RootNavigatorState();
-}
-
-class _RootNavigatorState extends State<RootNavigator> {
-  bool _isStaffView = false;
-
-  void _toggleView() {
-    setState(() {
-      _isStaffView = !_isStaffView;
-    });
-  }
+class AuthWrapper extends StatelessWidget {
+  const AuthWrapper({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // We pass a way to toggle back and forth through a floating button for easy testing
-    return Scaffold(
-      body: _isStaffView ? const StaffTasksScreen() : const HomeScreen(),
-      floatingActionButton: FloatingActionButton.small(
-        onPressed: _toggleView,
-        backgroundColor: Colors.black,
-        child: Icon(
-          _isStaffView ? Icons.person : Icons.badge,
-          color: Colors.white,
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        // If the connection is active, check the data
+        if (snapshot.connectionState == ConnectionState.active) {
+          final user = snapshot.data;
+          if (user == null) {
+            return const LoginScreen();
+          } else {
+            return const StaffTasksScreen();
+          }
+        }
+        // While checking auth state, show a loading indicator
+        return const Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      },
     );
   }
 }
