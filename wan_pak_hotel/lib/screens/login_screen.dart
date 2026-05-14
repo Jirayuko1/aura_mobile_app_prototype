@@ -95,10 +95,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
               ),
               const SizedBox(height: 48),
-              // Email Field
               TextField(
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
+                style: const TextStyle(color: AppTheme.textDark),
                 decoration: InputDecoration(
                   labelText: 'อีเมล (Email)',
                   hintText: 'staff@hotel.com',
@@ -116,6 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
               TextField(
                 controller: _passwordController,
                 obscureText: _obscurePassword,
+                style: const TextStyle(color: AppTheme.textDark),
                 decoration: InputDecoration(
                   labelText: 'รหัสผ่าน (Password)',
                   prefixIcon: const Icon(Icons.lock_outline),

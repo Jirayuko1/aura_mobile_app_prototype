@@ -884,6 +884,7 @@ class _StaffTasksScreenState extends State<StaffTasksScreen> {
         content: TextField(
           controller: controller,
           maxLines: 3,
+          style: const TextStyle(color: Colors.black),
           decoration: const InputDecoration(
             hintText: 'พิมพ์รายละเอียดที่นี่...',
           ),
