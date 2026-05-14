@@ -63,38 +63,6 @@ class _StaffTasksScreenState extends State<StaffTasksScreen> {
     });
   }
 
-  Future<void> _takePhotoAndComplete(String ticketId) async {
-    final XFile? image = await _picker.pickImage(
-      source: ImageSource.camera,
-      imageQuality: 50,
-    );
-    if (image == null) return;
-
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => const Center(child: CircularProgressIndicator()),
-    );
-
-    try {
-      final storageRef = FirebaseStorage.instance.ref().child(
-        'proofs/$ticketId.jpg',
-      );
-      await storageRef.putFile(File(image.path));
-      final url = await storageRef.getDownloadURL();
-
-      await _updateStatus(ticketId, 'completed', photoUrl: url);
-      if (mounted) Navigator.pop(context);
-    } catch (e) {
-      if (mounted) {
-        Navigator.pop(context);
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Upload failed: $e')));
-      }
-    }
-  }
-
   bool _isUrgent(String? createdAtStr) {
     if (createdAtStr == null) return false;
     try {
@@ -618,16 +586,15 @@ class _StaffTasksScreenState extends State<StaffTasksScreen> {
                                     ),
                                     child: const Text('รับงาน'),
                                   )
-                                : ElevatedButton.icon(
-                                    onPressed: () => _takePhotoAndComplete(docId),
-                                    icon: const Icon(Icons.camera_alt, size: 18),
-                                    label: const Text('ถ่ายรูปเพื่อปิดงาน'),
+                                : ElevatedButton(
+                                    onPressed: () => _updateStatus(docId, 'completed'),
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.green,
                                       foregroundColor: Colors.white,
                                       padding: const EdgeInsets.symmetric(vertical: 14),
                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                                     ),
+                                    child: const Text('ปิดงานสำเร็จ'),
                                   ),
                           ),
                       ],
